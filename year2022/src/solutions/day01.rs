@@ -28,7 +28,7 @@ pub fn day01(input: &str) -> (String, String) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use adventofcode::read_file;
+    use year2022::read_file;
 
     #[test]
     fn test_example_parse_lines() {

@@ -1,5 +1,5 @@
-use adventofcode::read_file;
 use std::env;
+use year2022::read_file;
 
 mod solutions;
 
