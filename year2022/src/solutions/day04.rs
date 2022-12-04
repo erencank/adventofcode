@@ -1,17 +1,17 @@
 fn part_a(input: &Vec<Vec<Vec<u32>>>) -> u32 {
-    input.iter().map(|f| calc_overlap2(f, 1)).sum::<u32>()
+    input.iter().map(|f| overlap(f, false)).sum::<u32>()
 }
 
 fn part_b(input: &Vec<Vec<Vec<u32>>>) -> u32 {
-    input.iter().map(|f| calc_overlap2(f, 0)).sum::<u32>()
+    input.iter().map(|f| overlap(f, true)).sum::<u32>()
 }
 
-fn calc_overlap2(input: &Vec<Vec<u32>>, right_compare: usize) -> u32 {
-    let lsplit = &input[0];
-    let rsplit = &input[1];
-    if lsplit[0] <= rsplit[0] && lsplit[1] >= rsplit[right_compare] {
-        1
-    } else if (rsplit[0] <= lsplit[0]) && (rsplit[1] >= lsplit[right_compare]) {
+fn overlap(input: &Vec<Vec<u32>>, partial_contain: bool) -> u32 {
+    let index = if partial_contain { 0 } else { 1 };
+    let (lsplit, rsplit) = (&input[0], &input[1]);
+    if lsplit[0] <= rsplit[0] && lsplit[1] >= rsplit[index]
+        || (rsplit[0] <= lsplit[0]) && (rsplit[1] >= lsplit[index])
+    {
         1
     } else {
         0
