@@ -1,40 +1,15 @@
 fn part_a(input: (Vec<Vec<char>>, Vec<Vec<usize>>)) -> String {
     let (mut crates, moves) = input;
     for move_ in moves {
-        for _m in 0..move_[0] {
-            let take_pile = {
-                match crates[move_[1] - 1].pop() {
-                    Some(crate_) => crate_,
-                    None => {
-                        panic!("AAAAAAAAAAAAAAA")
-                    }
-                }
-            };
-            crates[move_[2] - 1].push(take_pile);
-        }
+        crates = do_move(crates, move_, true)
     }
     show_result(&crates)
 }
 
 fn part_b(input: (Vec<Vec<char>>, Vec<Vec<usize>>)) -> String {
     let (mut crates, moves) = input;
-    println!("{:?}", crates);
     for move_ in moves {
-        println!("Move: {:?}", move_);
-        for amount in 0..move_[0] {
-            let take_pile = {
-                match crates[move_[1] - 1].pop() {
-                    Some(crate_) => crate_,
-                    None => {
-                        panic!("AAAAAAAAAAAAAAA")
-                    }
-                }
-            };
-            let pile_len = crates[move_[2] - 1].len();
-
-            crates[move_[2] - 1].insert(pile_len - amount, take_pile);
-            println!("{:?}", crates);
-        }
+        crates = do_move(crates, move_, false);
     }
     show_result(&crates)
 }
@@ -104,6 +79,26 @@ fn parse_moves(moves: &str) -> Vec<Vec<usize>> {
                 .collect::<Vec<usize>>()
         })
         .collect()
+}
+
+fn do_move(mut crates: Vec<Vec<char>>, move_: Vec<usize>, is_part_a: bool) -> Vec<Vec<char>> {
+    for amount in 0..move_[0] {
+        let take_pile = {
+            match crates[move_[1] - 1].pop() {
+                Some(crate_) => crate_,
+                None => {
+                    panic!("AAAAAAAAAAAAAAA")
+                }
+            }
+        };
+        if is_part_a {
+            crates[move_[2] - 1].push(take_pile)
+        } else {
+            let len = crates[move_[2] - 1].len();
+            crates[move_[2] - 1].insert(len - amount, take_pile);
+        }
+    }
+    crates
 }
 
 fn show_result(crates: &Vec<Vec<char>>) -> String {
